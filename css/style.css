@@ -17,3 +17,38 @@ body {
     justify-content: space-between;
     flex-wrap: wrap;
 }
+
+.iconoTrash {
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}
+
+.iconoTrash:hover {
+    background-color: gray;
+}
+
+.buttonPlus{
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}
+
+.buttonPlus:hover{
+    background-color: midnightblue;
+}
+
+.buttonMinus{
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}
+
+.buttonMinus:hover{
+    background-color: #983a3a;
+}
+
