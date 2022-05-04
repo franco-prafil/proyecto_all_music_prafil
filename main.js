@@ -1,5 +1,5 @@
 import {agregarProducto} from "./carritoIndex.js";
-import {productos} from "./stock.js";
+import {getData} from "./getData.js";
 
 
 const hero = document.getElementById ("hero");
@@ -29,8 +29,10 @@ hero.appendChild(div);
 // productos1.push(new Producto (4, 'Bateria', 150000)); 
 
 
-const mostrarProductos = (productos) => {
+const mostrarProductos = async () => {
     const contenedorProductos = document.getElementById("producto-contenedor");
+    const productos = await getData();
+
     productos.forEach(producto => {
         const div = document.createElement('div');
         div.classList.add('card');
@@ -60,4 +62,4 @@ const mostrarProductos = (productos) => {
     });
 };
 
-mostrarProductos(productos);
+mostrarProductos();
