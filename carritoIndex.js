@@ -105,8 +105,8 @@ const botonPago = document.getElementById(`botonPago`);
     agregarProducto(producto.id, productos);
 })
 
-let local = localStorage.getItem('carrito');
-if(local){
+let local = localStorage.getItem('carrito'); 
+if(local) {
     carritoDeCompras=JSON.parse(local);
     renderProductosCarrito();
 }else{
