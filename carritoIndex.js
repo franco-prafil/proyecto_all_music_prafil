@@ -1,12 +1,9 @@
-import { productos } from "./stock.js";
-
-// let total = total + precio * cantidad;
 let carritoDeCompras = [];
 
 const existeProductoEnCarrito = (productoId) =>
   carritoDeCompras.some((x) => x.id === productoId);
 
-const agregarProducto = (productoId) => {
+const agregarProducto = (productoId, productos) => {
   if (!existeProductoEnCarrito(productoId)) {
     let producto = productos.find((producto) => producto.id === productoId);
     if (producto) {
@@ -25,14 +22,9 @@ const eliminarProducto = (productoId) => {
 
 const sumarRestarCantidad = (productoId, sumar = true) => {
   if (existeProductoEnCarrito(productoId)) {
-    //aumentar su cantidad (la cantidad de ese item del objeto)
     for (let index = 0; index < carritoDeCompras.length; index++) {
       const elemento = carritoDeCompras[index];
       if (elemento.id === productoId) {
-        // sumar ?
-        // carritoDeCompras[index].cantidad++ :
-        // carritoDeCompras[index].cantidad--
-
         if (sumar) {
           carritoDeCompras[index].cantidad++;
         } else {
@@ -47,11 +39,13 @@ const sumarRestarCantidad = (productoId, sumar = true) => {
 };
 
 const renderProductosCarrito = () => {
+  let totalCantidad = 0;
+  let totalPrecio = 0;
   const contenedorCarrito = document.getElementById("items");
   contenedorCarrito.innerHTML = "";
   carritoDeCompras.forEach((producto) => {
     let tr = document.createElement("tr");
-    tr.classList.add("productoEnCarrito");
+    
     tr.innerHTML = `
                             <td>${producto.nombre}</td>
                             <td id="cantidad${producto.id}">
@@ -63,8 +57,8 @@ const renderProductosCarrito = () => {
                                   producto.id
                                 }" class="buttonPlus" >+</button>
                             </td>
-                            <td>$${producto.precio}</td>
-                            <td>$${producto.precio * producto.cantidad}</td>
+                            <td>$${producto.precio.toLocaleString("es-AR")}</td>
+                            <td>$${(producto.precio * producto.cantidad).toLocaleString("es-AR")}</td>
                             <td><button style="button" id="delete_${
                               producto.id
                             }" class="iconoTrash"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -73,14 +67,17 @@ const renderProductosCarrito = () => {
                           </svg></button></td>
         `;
     contenedorCarrito.appendChild(tr);
-
+    
+    totalCantidad += producto.cantidad;
+    totalPrecio += producto.precio * producto.cantidad;
+    
     const botonPlus = document.getElementById(`plus_${producto.id}`);
     const botonMinus = document.getElementById(`minus_${producto.id}`);
     const botonDelete = document.getElementById(`delete_${producto.id}`);
     botonPlus.addEventListener("click", () => {
       sumarRestarCantidad(producto.id);
     });
-
+    
     botonMinus.addEventListener("click", () => {
       sumarRestarCantidad(producto.id, false);
     });
@@ -88,26 +85,28 @@ const renderProductosCarrito = () => {
       eliminarProducto(producto.id);
     });
   });
+  console.log(totalPrecio);
+
+  document.getElementById("totalCantidad").innerText = totalCantidad;
+  document.getElementById("totalPrecio").innerText = totalPrecio.toLocaleString("es-AR");
+  
 };
 
-const renderTotal = () =>{
-    const imprimirTotal = document.getElementById("totalFooter").content;
-    let tr = document.createElement("tr");
-    { 
-    const totalCantidad = Object.values(carritoDeCompras).reduce((acc, {cantidad}) => acc + cantidad ,0);
-    const totalPrecio = Object.values(carritoDeCompras).reduce((acc, {cantidad, precio}) => acc + cantidad * precio,0);
-    console.log(totalCantidad);
+const botonPago = document.getElementById(`botonPago`);
+    botonPago.addEventListener('click', () => {
+    setInterval("location.reload()",3000);
+    Swal.fire({
+      title: 'Ir a Pagar',
+      html: 'Te redireccionaremos a la pagina para que puedas abonar',
+      timer: 3000,
+      showConfirmButton: false,
+      timerProgressBar: true,
+    })
+    agregarProducto(producto.id, productos);
+})
 
-    imprimirTotal.querySelectorAll('td')[0].textContent = totalCantidad;
-    imprimirTotal.querySelector('span').textContent = totalPrecio;
-    }
-    imprimirTotal.appendChild(tr)
-
-    renderTotal()
-}
-
-let local = localStorage.getItem('carrito');
-if(local){
+let local = localStorage.getItem('carrito'); 
+if(local) {
     carritoDeCompras=JSON.parse(local);
     renderProductosCarrito();
 }else{
