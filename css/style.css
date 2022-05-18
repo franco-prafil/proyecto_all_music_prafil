@@ -2,10 +2,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+background: rgb(191,191,191);
+background: linear-gradient(0deg, rgba(191,191,191,1) 0%, rgba(215,67,67,1) 90%);
 }
 
 #producto-contenedor {
@@ -25,7 +27,7 @@ body {
 }
 
 .iconoTrash:hover {
-    background-color: gray;
+    background-color: rgb(128, 128, 128);
 }
 
 .buttonPlus{
@@ -52,3 +54,77 @@ body {
     background-color: #983a3a;
 }
 
+
+.tdCarritoFooter{
+    padding-left: 2.5rem !important;
+}
+
+.footerColor{
+    background: rgb(215,67,67);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(191,191,191,1) 49%);
+}
+
+
+/* BUTTON DOWN */
+
+.goCartContainer {
+    position: fixed;
+    visibility: hidden;
+    bottom: 4rem;
+    right: 0rem;
+    width: 4.6rem;
+    height: 4.6rem;
+    z-index: -1;
+}
+
+.goCartButton {
+    width: 0rem;
+    height: 0rem;
+    background: #000;
+    border-radius: 50%;
+    cursor: pointer;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.goCartButton i{
+    position: relative;
+    top: 32%;
+    left: 36%;
+    transform: translate(-50%, -50%) scale(0);
+    color: #fff;
+    transition: .0s;
+}
+
+.show{
+    z-index: 10;
+    visibility: visible;
+}
+
+.show .goCartButton{
+    animation: popup .3s ease-in-out;
+    width: 4.6rem;
+    height: 4.6rem;
+    z-index: 11;
+}
+
+.show i{
+    transform: scale(-50%, -50%) scale(1);
+}
+
+@keyframes popup{
+    0%{
+        width: 0rem;
+        height: 0rem;
+    }
+    50%{
+        width: 2rem;
+        height: 2rem;
+    }
+    100%{
+        width: 4.6rem;
+        height: 4.6rem;
+    }
+}
